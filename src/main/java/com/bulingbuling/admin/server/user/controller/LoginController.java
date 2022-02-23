@@ -12,27 +12,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/bb/web/")
+@RequestMapping(value = "/bb/web/user")
 public class LoginController {
     private final Logger log = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     private LoginService loginService;
 
-    @RequestMapping(value = "/save")
-    public ResultMap create(@RequestBody LoginEntity data) {
-        return loginService.create(data);
+    @RequestMapping(value = "/get")
+    public ResultMap getAllUser() {
+        return loginService.getAllUser();
     }
-    @RequestMapping(value = "/getById")
-    public ResultMap create(@RequestParam int id) {
-        return loginService.find(id);
-    }
-    @RequestMapping(value = "/getAll")
-    public ResultMap create() {
-        return loginService.findAll();
-    }
-    @RequestMapping(value = "/remove")
-    public ResultMap remove(@RequestParam int id) {
-        return loginService.remove(id);
+
+    @RequestMapping(value = "/login")
+    public ResultMap login(@RequestBody LoginEntity data) {
+        return loginService.login(data);
     }
 }

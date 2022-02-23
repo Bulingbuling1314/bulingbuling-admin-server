@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LoginDo extends JpaRepository<LoginEntity, Integer> {}
+public interface LoginDo extends JpaRepository<LoginEntity, Integer> {
+    LoginEntity findByUserName(String username);
+}

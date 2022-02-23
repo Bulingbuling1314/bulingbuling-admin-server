@@ -10,7 +10,7 @@ spring:
   ####数据源相关配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:33066/admin?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://39.105.122.45:3306/admin?useUnicode=true&characterEncoding=utf-8
     username: root
     password: 123456
     max-idle: 10
@@ -24,13 +24,13 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
-  type-aliases-package: com.bulingbuling.admin.server
+  type-aliases-package: com.example.demo.mapper
 logging:
   level:
     root: INFO
     com.anran.projectmanage.mapper: DEBUG
   file:
-    name: /usr/log/bulingbuling.log
+    name: /usr/log/example.log
 
 feign:
   hystrix:

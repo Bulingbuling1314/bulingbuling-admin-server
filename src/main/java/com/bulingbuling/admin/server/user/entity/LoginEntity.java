@@ -10,10 +10,16 @@ public class LoginEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column(name = "userName")
+    @Column(name = "user_name")
     private String userName;
     @Column(name = "password")
     private String password;
+
+    @Column(name = "nick_name")
+    private String nickName;
+
+    @Column(name = "role")
+    private String role;
 
     public int getId() {
         return id;
@@ -39,4 +45,19 @@ public class LoginEntity implements Serializable {
         this.password = password;
     }
 
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }
