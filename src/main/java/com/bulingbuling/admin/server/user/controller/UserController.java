@@ -22,6 +22,13 @@ public class UserController {
     public ResultMap getAllUser() {
         return userService.getAllUser();
     }
+    /**
+     *  根据Token获取用户信息
+     * */
+    @RequestMapping(value = "/getUser")
+    public ResultMap getUserByToken() {
+        return userService.getUserByToken();
+    }
 
     @RequestMapping(value = "/login")
     public ResultMap login(@RequestBody UserEntity data) {
