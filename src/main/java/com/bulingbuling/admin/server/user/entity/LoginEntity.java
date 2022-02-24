@@ -12,6 +12,7 @@ public class LoginEntity implements Serializable {
     private int id;
     @Column(name = "user_name")
     private String userName;
+
     @Column(name = "password")
     private String password;
 
