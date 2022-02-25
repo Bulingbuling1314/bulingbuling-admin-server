@@ -1,25 +1,28 @@
 package com.bulingbuling.admin.server.user.service;
 
+import cn.hutool.json.JSONUtil;
 import com.bulingbuling.admin.server.common.ResultMap;
-import com.bulingbuling.admin.server.common.Session;
 import com.bulingbuling.admin.server.tools.JWTUtil;
+import com.bulingbuling.admin.server.tools.RedisService;
 import com.bulingbuling.admin.server.user.dao.UserDo;
 import com.bulingbuling.admin.server.user.entity.UserEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @CacheConfig(cacheNames="userInfo")
 public class UserService {
     private final Logger log = LoggerFactory.getLogger(UserService.class);
+
+    @Autowired
+    private RedisService redisService;
 
     ResultMap resultMap = new ResultMap();
 
@@ -34,17 +37,16 @@ public class UserService {
         return resultMap.ok(200, userDo.findAll());
     }
 
-    @Cacheable //开启缓存
     public ResultMap login(UserEntity data) {
         String userName = data.getUserName();
         String password = data.getPassword();
-        HashMap<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         UserEntity userInfo = userDo.findByUserName(userName);
+
 
         if(null != userInfo) {
             if(userInfo.getPassword().equals(password)) {
                 String token = JWTUtil.createToken(String.valueOf(userInfo.getId()), 1000 * 60 * 30);
-                Session.setToken(token);//设置token,参数token是要设置的具体值
                 // 获取登录次数
                 int count = userInfo.getLoginCount() + 1;
                 userInfo.setLoginCount(count);
@@ -55,6 +57,9 @@ public class UserService {
                 result.put("nickName", userInfo.getNickName());
                 result.put("role", userInfo.getRole());
                 result.put("loginCount", count);
+                // 把用户信息存进redis
+
+                redisService.set("userInfo", JSONUtil.toJsonStr(result));
                 return resultMap.ok(200, result);
             } else {
                 return resultMap.error(201, "密码输入错误");
