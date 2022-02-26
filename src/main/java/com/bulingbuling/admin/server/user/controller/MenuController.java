@@ -16,6 +16,6 @@ public class MenuController {
 
     @RequestMapping(value = "/get")
     public ResultMap getMenu() {
-        return menuService.getMenu();
+        return resultMap.ok(200, menuService.getMenu());
     }
 }

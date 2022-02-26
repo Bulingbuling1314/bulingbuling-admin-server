@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class RedisServiceImpl implements RedisService {
@@ -17,7 +18,7 @@ public class RedisServiceImpl implements RedisService {
         // 20: 表示该数据在缓存中存在的时间，TimeUnit.SECONDS为单位秒，
         // 20秒后缓存中的数据会自动消失
 //        redisTemplate.opsForValue().set(key,value,20, TimeUnit.SECONDS);
-        redisTemplate.opsForValue().set(key,value);
+        redisTemplate.opsForValue().set(key,value,60 * 30, TimeUnit.SECONDS);
     }
 
     @Override

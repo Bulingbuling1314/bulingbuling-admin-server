@@ -1,12 +1,12 @@
 package com.bulingbuling.admin.server.interceptor;
 
+import cn.hutool.core.lang.Console;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.bulingbuling.admin.server.common.ResultMap;
 import com.bulingbuling.admin.server.tools.JWTUtil;
 import com.bulingbuling.admin.server.tools.RedisService;
 import com.bulingbuling.admin.server.user.service.UserService;
-import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,6 @@ public class TokenInterceptor implements HandlerInterceptor {
     public boolean preHandle (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
 
         final Logger log = LoggerFactory.getLogger(UserService.class);
-        ResultMap resultMap = new ResultMap();
 
         Map userInfo = JSONUtil.parseObj(redisService.get("userInfo"));
 
@@ -39,20 +38,24 @@ public class TokenInterceptor implements HandlerInterceptor {
             System.out.println("OPTIONS请求，放行");
             return true;
         }
-        String token = httpServletRequest.getHeader("token");
+        String token = httpServletRequest.getHeader("Authorization");
         System.out.println(token);
         System.out.println(userInfo.get("token"));
 
+        httpServletResponse.setCharacterEncoding("UTF-8");
+        httpServletResponse.setContentType("application/json; charset=utf-8");
+
+        PrintWriter out = null;
+        JSONObject json = new JSONObject();
+
         // 2、判断 token 是否存在
-        if (token == null || "".equals(token)) {
+        if (token == null || "".equals(token) || null == JWTUtil.verifyToken(token) || !JWTUtil.verifyToken(token).equals(JWTUtil.verifyToken((String) userInfo.get("token")))) {
             System.out.println("未登录");
-            PrintWriter out = null;
-            httpServletResponse.setCharacterEncoding("UTF-8");
-            httpServletResponse.setContentType("application/json; charset=utf-8");
             try {
-                resultMap.error(402, "请携带token");
+                json.set("code", 401);
+                json.set("msg", "请携带token");
                 out = httpServletResponse.getWriter();
-                out.print(resultMap);
+                out.print(json);
                 return false;
             } catch (IOException e) {
                 log.error("response error", e);
@@ -60,10 +63,6 @@ public class TokenInterceptor implements HandlerInterceptor {
                 if (out != null)
                     out.close();
             }
-        }
-        // 3、解析token
-        if(null == JWTUtil.verifyToken(token)){
-            return false;
         }
 
         return true;
