@@ -50,10 +50,17 @@ public class MenuEntity {
     private int type;
 
     /**
+     * 对应权限
+     * @Type int
+     * */
+    @Column(name = "role")
+    private String role;
+
+    /**
      * 路由上级path
      * @Type String
      * */
-    @Column(name = "parent_path")
-    private String parentPath;
+    @Column(name = "parent_id")
+    private int parentId;
 
 }

@@ -6,5 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface MenuDo extends JpaRepository<MenuEntity, Integer> {
-    List findByParentPath(String parentPath);
+
+    List findByRoleAndParentId(String role, int parentId);
+
+    List findByRoleAndId(String role, int id);
 }
