@@ -1,5 +1,6 @@
 package com.bulingbuling.admin.server.user.controller;
 
+import com.bulingbuling.admin.server.tools.IpUtil;
 import com.bulingbuling.admin.server.user.entity.UserEntity;
 import com.bulingbuling.admin.server.user.service.UserService;
 import com.bulingbuling.admin.server.common.ResultMap;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(value = "/bb/web/user")
@@ -31,7 +34,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login")
-    public ResultMap login(@RequestBody UserEntity data) {
-        return userService.login(data);
+    public ResultMap login(HttpServletRequest request, @RequestBody UserEntity data) {
+        String ipAddress = IpUtil.getIpAddr(request);
+        return userService.login(data, ipAddress);
     }
 }

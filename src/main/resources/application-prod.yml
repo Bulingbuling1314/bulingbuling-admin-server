@@ -12,7 +12,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/admin?useUnicode=true&characterEncoding=utf-8
     username: root
-    password: 123456
+    password: QBL34YoK1Qn
     max-idle: 10
     max-wait: 10000
     min-idle: 5
@@ -23,9 +23,9 @@ spring:
     show-sql: true
   redis:
     host: 39.105.122.45
-    port: 6379
+    port: 13679
     database: 0 # 设置数据库索引为0 默认为0
-    password: 123456 # 密码为空
+    password: =HL9^cRgImw!nSj_ # 密码为空
     jedis:
       pool:
         max-active: 1000 # 连接池最大连接数（使用负值表示没有限制）

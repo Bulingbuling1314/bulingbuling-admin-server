@@ -1,23 +1,25 @@
 package com.bulingbuling.admin.server.user.service;
 
+import cn.hutool.core.lang.Console;
 import cn.hutool.json.JSONUtil;
 import com.bulingbuling.admin.server.common.ResultMap;
 import com.bulingbuling.admin.server.tools.JWTUtil;
 import com.bulingbuling.admin.server.tools.RedisService;
+import com.bulingbuling.admin.server.user.dao.LoginLogDo;
 import com.bulingbuling.admin.server.user.dao.UserDo;
+import com.bulingbuling.admin.server.user.entity.LoginLogEntity;
 import com.bulingbuling.admin.server.user.entity.UserEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@CacheConfig(cacheNames="userInfo")
 public class UserService {
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
@@ -28,6 +30,9 @@ public class UserService {
 
     @Resource
     private UserDo userDo;
+    @Resource
+    private LoginLogDo loginLogDo;
+
 
     public ResultMap getAllUser() {
         return resultMap.ok(200, userDo.findAll());
@@ -37,7 +42,7 @@ public class UserService {
         return resultMap.ok(200, userDo.findAll());
     }
 
-    public ResultMap login(UserEntity data) {
+    public ResultMap login(UserEntity data, String ip) {
         String userName = data.getUserName();
         String password = data.getPassword();
         Map<String, Object> result = new HashMap<>();
@@ -58,8 +63,12 @@ public class UserService {
                 result.put("role", userInfo.getRole());
                 result.put("loginCount", count);
                 // 把用户信息存进redis
-
                 redisService.set("userInfo", JSONUtil.toJsonStr(result));
+
+                // 储存登录信息
+                LoginLogEntity loginLogInfo = new LoginLogEntity(ip, userInfo.getUserName(), new Date());
+
+                loginLogDo.save(loginLogInfo);
                 return resultMap.ok(200, result);
             } else {
                 return resultMap.error(201, "密码输入错误");
