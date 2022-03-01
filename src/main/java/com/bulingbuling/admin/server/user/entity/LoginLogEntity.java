@@ -1,4 +1,5 @@
 package com.bulingbuling.admin.server.user.entity;
+import cn.hutool.core.date.DateTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,6 +36,8 @@ public class LoginLogEntity {
      * */
     @Column(name = "login_date")
     private Date loginDate;
+
+    public LoginLogEntity() {}
 
     public LoginLogEntity(String ip, String userName, Date date) {
         this.ipPath = ip;
