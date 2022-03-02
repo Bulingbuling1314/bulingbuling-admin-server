@@ -10,4 +10,6 @@ public interface MenuDo extends JpaRepository<MenuEntity, Integer> {
     List findByRoleAndParentId(String role, int parentId);
 
     List findByRoleAndId(String role, int id);
+
+    List<MenuEntity> findByRole(String role);
 }

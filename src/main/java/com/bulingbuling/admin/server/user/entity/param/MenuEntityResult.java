@@ -11,6 +11,11 @@ import java.util.List;
 public class MenuEntityResult extends MenuEntity {
 
     @Setter @Getter
-    private List<MenuEntity> children = new ArrayList<>();
+    private List<MenuEntityResult> children = new ArrayList<>();
+
+
+    public void addChildren(MenuEntityResult result){
+        this.children.add(result);
+    }
 
 }
