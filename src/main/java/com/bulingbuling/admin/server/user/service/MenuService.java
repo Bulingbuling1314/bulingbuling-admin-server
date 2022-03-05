@@ -1,6 +1,7 @@
 package com.bulingbuling.admin.server.user.service;
 
 import cn.hutool.json.JSONUtil;
+import com.bulingbuling.admin.server.common.ResultMap;
 import com.bulingbuling.admin.server.tools.RedisService;
 import com.bulingbuling.admin.server.user.dao.MenuDo;
 import com.bulingbuling.admin.server.user.entity.MenuEntity;
@@ -20,9 +21,10 @@ public class MenuService {
     @Autowired
     private RedisService redisService;
 
+    private ResultMap resultMap;
     @Resource
     private MenuDo menuDo;
-
+    // 获取菜单
     public List<MenuEntityResult> getMenu() {
         Map result = JSONUtil.parseObj(redisService.get("userInfo"));
         Object role = result.get("role");
@@ -35,7 +37,7 @@ public class MenuService {
 
         return resultList;
     }
-
+    // 递归查询菜单
     public void initMenu(List<MenuEntity> menuList, int parentId, List<MenuEntityResult> resultList, MenuEntityResult parent) {
         menuList.stream().filter(menu -> menu.getParentId() == parentId).forEach(menu -> {
             MenuEntityResult result = new MenuEntityResult();
@@ -47,5 +49,11 @@ public class MenuService {
             }
             initMenu(menuList, result.getId(), null, result);
         });
+    }
+
+    // 新增菜单
+    public ResultMap addMenu(MenuEntity menu) {
+        MenuEntity menuResult = menuDo.save(menu);
+        return resultMap.ok(200, menuResult);
     }
 }
