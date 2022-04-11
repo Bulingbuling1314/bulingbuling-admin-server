@@ -7,6 +7,7 @@ import com.bulingbuling.admin.server.user.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,5 +26,10 @@ public class MenuController {
     @RequestMapping(value = "/add")
     public ResultMap add(@RequestBody MenuEntity menu) {
         return menuService.addMenu(menu);
+    }
+
+    @RequestMapping(value = "/remove")
+    public ResultMap remove(@RequestParam int id) {
+        return menuService.removeMenu(id);
     }
 }

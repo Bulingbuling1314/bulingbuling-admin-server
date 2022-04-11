@@ -56,4 +56,10 @@ public class MenuService {
         MenuEntity menuResult = menuDo.save(menu);
         return resultMap.ok(200, menuResult);
     }
+
+    // 删除菜单
+    public ResultMap removeMenu(int id) {
+        menuDo.deleteById(id);
+        return resultMap.ok(200, "操作成功");
+    }
 }
