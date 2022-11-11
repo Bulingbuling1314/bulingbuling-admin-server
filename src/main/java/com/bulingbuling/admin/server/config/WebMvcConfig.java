@@ -19,7 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         // 添加自定义拦截器，并拦截对应 url"
         registry.addInterceptor(interceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/bb/web/user/login");
+                .addPathPatterns("/bb/**") // 指定要拦截的请求
+                .excludePathPatterns("/bb/web/user/login"); // 不拦截的请求
     }
 }
