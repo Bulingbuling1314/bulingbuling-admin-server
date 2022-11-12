@@ -1,12 +1,10 @@
 package com.bulingbuling.admin.server.interceptor;
 
-import cn.hutool.core.lang.Console;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.bulingbuling.admin.server.common.ResultMap;
 import com.bulingbuling.admin.server.tools.JWTUtil;
 import com.bulingbuling.admin.server.tools.RedisService;
-import com.bulingbuling.admin.server.user.service.UserService;
+import com.bulingbuling.admin.server.admin.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.Map;
 
 /** * 判断 redis 中是否存在 user 属性，如果存在就通过，如果不存在就跳转到 login 页面 */
