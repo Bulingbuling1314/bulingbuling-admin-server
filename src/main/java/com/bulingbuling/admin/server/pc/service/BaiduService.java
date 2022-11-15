@@ -21,7 +21,7 @@ public class BaiduService {
         BufferedReader in=null;
         try {
             //建立URL之间的连接
-            URLConnection conn=new URL("http://data.zz.baidu.com/urls?site=http://www.blog.liubingbing.xyz/#/&token=1Zy5boznKKpZmVua").openConnection();
+            URLConnection conn=new URL("http://data.zz.baidu.com/urls?site=http://www.blog.liubingbing.xyz&token=1Zy5boznKKpZmVua").openConnection();
             //设置通用的请求属性
             conn.setRequestProperty("Host","data.zz.baidu.com");
             conn.setRequestProperty("User-Agent", "curl/7.12.1");
