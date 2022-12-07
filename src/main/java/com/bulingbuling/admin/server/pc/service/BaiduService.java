@@ -36,9 +36,9 @@ public class BaiduService {
             out=new PrintWriter(conn.getOutputStream());
             //发送请求参数
             String[] paramMap = {
-                    "http://www.blog.liubingbing.xyz/#/",
-                    "http://www.blog.liubingbing.xyz/#/navigation",
-                    "http://www.blog.liubingbing.xyz/#/article/detail?id=7"
+                    "https://www.liubingbing.xyz/#/",
+                    "https://www.liubingbing.xyz/#/navigation",
+                    "https://www.liubingbing.xyz/#/article/detail?id=7"
             };
             String param = "";
             for(String s : paramMap){
