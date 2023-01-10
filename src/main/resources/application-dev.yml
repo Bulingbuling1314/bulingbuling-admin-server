@@ -6,21 +6,28 @@ server:
     uri-encoding: utf-8
   #开启https，配置跟证书一一对应
   ssl:
+    #    enabled: true
+    #    #指定证书
+    #    key-store: classpath:www.liubingbing.xyz.pfx
+    #    key-store-type: JKS
+    #    #密码
+    #    key-store-password: 1C4ulcV3
+
     enabled: true
     #指定证书
-    key-store: classpath:www.liubingbing.xyz.pfx
+    key-store: classpath:www.bulingbuling.xyz.pfx
     key-store-type: JKS
     #密码
-    key-store-password: 1C4ulcV3
+    key-store-password: z35x35s956b9
 
 #数据库相关配置
 spring:
   ####数据源相关配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:33066/admin?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:31066/admin?useUnicode=true&characterEncoding=utf-8
     username: root
-    password: QBL34YoK1Qn
+    password: da86d0f9a823091a
     max-idle: 10
     max-wait: 10000
     min-idle: 5

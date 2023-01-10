@@ -6,12 +6,19 @@ server:
     uri-encoding: utf-8
   #开启https，配置跟证书一一对应
   ssl:
+#    enabled: true
+#    #指定证书
+#    key-store: classpath:www.liubingbing.xyz.pfx
+#    key-store-type: JKS
+#    #密码
+#    key-store-password: 1C4ulcV3
+
     enabled: true
     #指定证书
-    key-store: classpath:www.liubingbing.xyz.pfx
+    key-store: classpath:www.bulingbuling.xyz.pfx
     key-store-type: JKS
     #密码
-    key-store-password: 1C4ulcV3
+    key-store-password: z35x35s956b9
 
 #数据库相关配置
 spring:
