@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
     // 注入 token 拦截器
     @Autowired
-    private TokenInterceptor interceptor;
+    private TokenInterceptor interceptor = new TokenInterceptor();
     /**
      * 重写添加拦截器
      */

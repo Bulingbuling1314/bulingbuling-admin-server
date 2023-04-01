@@ -11,11 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.Map;
 
 /** * 判断 redis 中是否存在 user 属性，如果存在就通过，如果不存在就跳转到 login 页面 */
@@ -26,6 +28,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
+        System.out.println("preHandle....");
+        String uri = httpServletRequest.getRequestURI();
+        System.out.println("当前路径："+uri);
 
         final Logger log = LoggerFactory.getLogger(UserService.class);
 
@@ -46,7 +51,12 @@ public class TokenInterceptor implements HandlerInterceptor {
         JSONObject json = new JSONObject();
 
         // 2、判断 token 是否存在
-        if (token == null || "".equals(token) || null == JWTUtil.verifyToken(token) || !JWTUtil.verifyToken(token).equals(JWTUtil.verifyToken((String) userInfo.get("token")))) {
+        if (
+                token == null
+                || "".equals(token)
+                || null == JWTUtil.verifyToken(token)
+                || !JWTUtil.verifyToken(token).equals(JWTUtil.verifyToken((String) userInfo.get("token")))
+        ) {
             System.out.println("未登录");
             try {
                 json.set("code", 401);
@@ -63,5 +73,21 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
 
         return true;
+    }
+
+    /**
+     * 访问控制器方法后执行
+     */
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        System.out.println(new Date() + "--postHandle:" + request.getRequestURL());
+    }
+
+    /**
+     * postHandle方法执行完成后执行，一般用于释放资源
+     */
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        System.out.println(new Date() + "--afterCompletion:" + request.getRequestURL());
     }
 }
